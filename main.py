@@ -26,6 +26,27 @@ CSS = """
     }
 """
 
+def prog1(page_data={}):
+    for u in CIRCUITS.keys():
+        CIRCUITS[u].off()
+        page_data[u] = 'OFF'
+
+    CIRCUITS['posi'].blink(n=1, fade_in_time=1, fade_out_time=0, off_time=0, wait=True)
+    CIRCUITS['posi'].on()
+    #sleep(1)
+    #CIRCUITS['head'].blink(n=1, on_time=0.1, off_time=0, fade_out_time=0.1, wait=True)
+    sleep(2)
+    CIRCUITS['time'].blink(n=1, on_time=0.1, off_time=0.1, wait=True)
+    CIRCUITS['time'].blink(n=14, on_time=0.05, off_time=0.05, wait=True)
+    CIRCUITS['time'].blink(n=5, on_time=0.1, off_time=0.1, wait=True)
+    CIRCUITS['time'].blink(n=3, on_time=0.2, off_time=0.2, wait=True)
+    CIRCUITS['time'].blink(n=1, fade_out_time=3, wait=True)
+    sleep(2)
+    CIRCUITS['posi'].off()
+
+    return page_data
+
+
 class WebServer(object):
     def __init__(self, ssid, pw):
         ip = self.connect(ssid, pw)
@@ -42,7 +63,8 @@ class WebServer(object):
         ip = wlan.ifconfig()[0]
         sleep(3)
         print(f'Connected on {ip}')
-        CIRCUITS['time'].pulse(2, 2, n=2)
+        #CIRCUITS['time'].pulse(2, 2, n=2)
+        prog1()
         return ip
 
     def open_socket(self, ip):
@@ -81,6 +103,9 @@ class WebServer(object):
                 elif command == 'pulse':
                     CIRCUITS[unit].blink(on_time=0, off_time=1, fade_in_time=6, fade_out_time=3)
                 page_data[unit] = command.upper()
+            elif unit == 'prog':
+                if command == '1':
+                    page_data = prog1(page_data)
 
             page_data['temperature'] = pico_temp_sensor.temp
 
