@@ -15,6 +15,7 @@ CIRCUITS = {
     'posi': LED(18),
     'flyn': LED(22),
 }
+COMMANDS = ['on', 'off', 'pulse']
 
 CSS = """
     .medium {
@@ -70,30 +71,17 @@ class WebServer(object):
             except IndexError:
                 pass
             print(request)
-            if request == '/headon?':
-                CIRCUITS['head'].on()
-                page_data['head'] = 'ON'
-            elif request =='/headoff?':
-                CIRCUITS['head'].off()
-                page_data['head'] = 'OFF'
-            elif request == '/posion?':
-                CIRCUITS['posi'].on()
-                page_data['posi'] = 'ON'
-            elif request =='/posioff?':
-                CIRCUITS['posi'].off()
-                page_data['posi'] = 'OFF'
-            elif request == '/timeon?':
-                CIRCUITS['time'].on()
-                page_data['time'] = 'ON'
-            elif request =='/timeoff?':
-                CIRCUITS['time'].off()
-                page_data['time'] = 'OFF'
-            elif request == '/flynon?':
-                CIRCUITS['flyn'].on()
-                page_data['flyn'] = 'ON'
-            elif request =='/flynoff?':
-                CIRCUITS['flyn'].off()
-                page_data['flyn'] = 'OFF'
+            unit = request[1:5]
+            command = request[5:-1]
+            if unit in CIRCUITS.keys() and command in COMMANDS:
+                if command == 'on':
+                    CIRCUITS[unit].on()
+                elif command == 'off':
+                    CIRCUITS[unit].off()
+                elif command == 'pulse':
+                    CIRCUITS[unit].blink(on_time=0, off_time=1, fade_in_time=6, fade_out_time=3)
+                page_data[unit] = command.upper()
+
             page_data['temperature'] = pico_temp_sensor.temp
 
             client.send(html.format(**page_data))
