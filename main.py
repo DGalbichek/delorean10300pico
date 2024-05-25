@@ -16,6 +16,15 @@ CIRCUITS = {
     'flyn': LED(22),
 }
 
+CSS = """
+    .medium {
+        font-size: 60px;
+    }
+    .larger {
+        font-size: 80px;
+    }
+"""
+
 class WebServer(object):
     def __init__(self, ssid, pw):
         ip = self.connect(ssid, pw)
@@ -46,7 +55,12 @@ class WebServer(object):
     def serve(self):
         #Start a web server
         page_data = {k: 'OFF' for k in CIRCUITS.keys()}
+        page_data['css'] = CSS
         page_data['temperature'] = 0
+
+        with open('index_template.html', 'r+') as f:
+            html = f.read()
+
         while True:
             client = self.conn.accept()[0]
             request = client.recv(1024)
@@ -82,8 +96,6 @@ class WebServer(object):
                 page_data['flyn'] = 'OFF'
             page_data['temperature'] = pico_temp_sensor.temp
 
-            with open('index_template.html', 'r+') as f:
-                html = f.read()
             client.send(html.format(**page_data))
             client.close()
 

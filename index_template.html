@@ -1,34 +1,113 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <style media="screen" type="text/css">{css}</style>
+    </head>
     <body>
-        <form action="./posion">
-            <input type="submit" value="Posi on" />
-        </form>
-        <form action="./posioff">
-            <input type="submit" value="Posi off" />
-        </form>
-        <p>POSI is {posi}</p>
-        <form action="./headon">
-            <input type="submit" value="Head on" />
-        </form>
-        <form action="./headoff">
-            <input type="submit" value="Head off" />
-        </form>
-        <p>HEAD is {head}</p>
-        <form action="./timeon">
-            <input type="submit" value="Time on" />
-        </form>
-        <form action="./timeoff">
-            <input type="submit" value="Time off" />
-        </form>
-        <p>TIME is {time}</p>
-        <form action="./flynon">
-            <input type="submit" value="Flyn on" />
-        </form>
-        <form action="./flynoff">
-            <input type="submit" value="Flyn off" />
-        </form>
-        <p>FLYN is {flyn}</p>
-        <p>Temperature is {temperature}</p>
+        <center>
+            <div style="width: 90%; max-width:640px">
+                <table style="border-spacing: 30px;">
+                    <tr>
+                        <td class="medium" align="right"></td>
+                        <td class="medium" align="center">POSI is {posi}</td>
+                        <td class="medium" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td class="medium" align="right">
+                            <form action="./posion">
+                                <input type="submit" class="medium" value="ON" />
+                            </form>
+                        </td>
+                        <td class="medium" align="center">
+                            <form action="./posioff">
+                                <input type="submit" class="medium" value="OFF" />
+                            </form>
+                        </td>
+                        <td class="medium" align="left">
+                            <form action="./posipulse">
+                                <input type="submit" class="medium" value="PULSE" />
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="medium" align="right"></td>
+                        <td class="medium" align="center">HEAD is {head}</td>
+                        <td class="medium" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td class="medium" align="right">
+                            <form action="./headon">
+                                <input type="submit" class="medium" value="ON" />
+                            </form>
+                        </td>
+                        <td class="medium" align="center">
+                            <form action="./headoff">
+                                <input type="submit" class="medium" value="OFF" />
+                            </form>
+                        </td>
+                        <td class="medium" align="left">
+                            <form action="./headpulse">
+                                <input type="submit" class="medium" value="PULSE" />
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="medium" align="right"></td>
+                        <td class="medium" align="center">TIME is {time}</td>
+                        <td class="medium" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td class="medium" align="right">
+                            <form action="./timeon">
+                                <input type="submit" class="medium" value="ON" />
+                            </form>
+                        </td>
+                        <td class="medium" align="center">
+                            <form action="./timeoff">
+                                <input type="submit" class="medium" value="OFF" />
+                            </form>
+                        </td>
+                        <td class="medium" align="left">
+                            <form action="./timepulse">
+                                <input type="submit" class="medium" value="PULSE" />
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="medium" align="right"></td>
+                        <td class="medium" align="center">FLYN is {flyn}</td>
+                        <td class="medium" align="left"></td>
+                    </tr>
+                    <tr>
+                        <td class="medium" align="right">
+                            <form action="./flynon">
+                                <input type="submit" class="medium" value="ON" />
+                            </form>
+                        </td>
+                        <td class="medium" align="center">
+                            <form action="./flynoff">
+                                <input type="submit" class="medium" value="OFF" />
+                            </form>
+                        </td>
+                        <td class="medium" align="left">
+                            <form action="./flynpulse">
+                                <input type="submit" class="medium" value="PULSE" />
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="medium" align="right"></td>
+                        <td class="medium" align="center">Temperature is {temperature}</td>
+                        <td class="medium" align="left"></td>
+                    </tr>
+
+                </table>
+            </div>
+        </center>
     </body>
 </html>
