@@ -16,46 +16,6 @@ CIRCUITS = {
     'flyn': LED(22),
 }
 
-def webpage(temperature, state):
-    #Template HTML
-    html = f"""
-        <!DOCTYPE html>
-        <html>
-            <body>
-                <form action="./posion">
-                    <input type="submit" value="Posi on" />
-                </form>
-                <form action="./posioff">
-                    <input type="submit" value="Posi off" />
-                </form>
-                <p>POSI is {state['posi']}</p>
-                <form action="./headon">
-                    <input type="submit" value="Head on" />
-                </form>
-                <form action="./headoff">
-                    <input type="submit" value="Head off" />
-                </form>
-                <p>HEAD is {state['head']}</p>
-                <form action="./timeon">
-                    <input type="submit" value="Time on" />
-                </form>
-                <form action="./timeoff">
-                    <input type="submit" value="Time off" />
-                </form>
-                <p>TIME is {state['time']}</p>
-                <form action="./flynon">
-                    <input type="submit" value="Flyn on" />
-                </form>
-                <form action="./flynoff">
-                    <input type="submit" value="Flyn off" />
-                </form>
-                <p>FLYN is {state['flyn']}</p>
-                <p>Temperature is {temperature}</p>
-            </body>
-        </html>
-        """
-    return str(html)
-
 class WebServer(object):
     def __init__(self, ssid, pw):
         ip = self.connect(ssid, pw)
@@ -85,8 +45,8 @@ class WebServer(object):
 
     def serve(self):
         #Start a web server
-        state = {k: 'OFF' for k in CIRCUITS.keys()}
-        temperature = 0
+        page_data = {k: 'OFF' for k in CIRCUITS.keys()}
+        page_data['temperature'] = 0
         while True:
             client = self.conn.accept()[0]
             request = client.recv(1024)
@@ -98,31 +58,33 @@ class WebServer(object):
             print(request)
             if request == '/headon?':
                 CIRCUITS['head'].on()
-                state['head'] = 'ON'
+                page_data['head'] = 'ON'
             elif request =='/headoff?':
                 CIRCUITS['head'].off()
-                state['head'] = 'OFF'
+                page_data['head'] = 'OFF'
             elif request == '/posion?':
                 CIRCUITS['posi'].on()
-                state['posi'] = 'ON'
+                page_data['posi'] = 'ON'
             elif request =='/posioff?':
                 CIRCUITS['posi'].off()
-                state['posi'] = 'OFF'
+                page_data['posi'] = 'OFF'
             elif request == '/timeon?':
                 CIRCUITS['time'].on()
-                state['time'] = 'ON'
+                page_data['time'] = 'ON'
             elif request =='/timeoff?':
                 CIRCUITS['time'].off()
-                state['time'] = 'OFF'
+                page_data['time'] = 'OFF'
             elif request == '/flynon?':
                 CIRCUITS['flyn'].on()
-                state['flyn'] = 'ON'
+                page_data['flyn'] = 'ON'
             elif request =='/flynoff?':
                 CIRCUITS['flyn'].off()
-                state['flyn'] = 'OFF'
-            temperature = pico_temp_sensor.temp
-            html = webpage(temperature, state)
-            client.send(html)
+                page_data['flyn'] = 'OFF'
+            page_data['temperature'] = pico_temp_sensor.temp
+
+            with open('index_template.html', 'r+') as f:
+                html = f.read()
+            client.send(html.format(**page_data))
             client.close()
 
 CIRCUITS['posi'].blink(n=1)
